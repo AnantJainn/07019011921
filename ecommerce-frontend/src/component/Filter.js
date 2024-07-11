@@ -34,7 +34,6 @@ const Filter = ({ filters, setFilters, applyFilters }) => {
         type="number"
         value={filters.minPrice}
         onChange={handleInputChange}
-        fullWidth
         margin="normal"
       />
       <TextField
@@ -43,14 +42,12 @@ const Filter = ({ filters, setFilters, applyFilters }) => {
         type="number"
         value={filters.maxPrice}
         onChange={handleInputChange}
-        fullWidth
         margin="normal"
       />
       <Button
         variant="contained"
         color="primary"
         onClick={applyFilters}
-        fullWidth
       >
         Apply Filters
       </Button>
