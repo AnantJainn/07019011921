@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import Filter from "../component/Filter";
 import { getTopProducts } from "../services/api";
 import { generateUniqueProductId } from "../utils";
+
+import React, { useState, useEffect, useCallback } from "react";
+
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -13,9 +16,9 @@ const Home = () => {
   });
 
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzIwNzA2ODEyLCJpYXQiOjE3MjA3MDY1MTIsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6ImFiYjgzMmE1LWFlZTUtNDNjOC1iMWYxLTNhZjRkYTVlMWE1NyIsInN1YiI6ImdhdXJhbnNoaWd1cHRhMjAwMEBnbWFpbC5jb20ifSwiY29tcGFueU5hbWUiOiJVbml2ZXJzaXR5IFNjaG9vbCBvZiBBdXRvbWF0aW9uIGFuZCBSb2JvdGljcyIsImNsaWVudElEIjoiYWJiODMyYTUtYWVlNS00M2M4LWIxZjEtM2FmNGRhNWUxYTU3IiwiY2xpZW50U2VjcmV0IjoiVHJJUE5oeU9JUHF1ZWZUQyIsIm93bmVyTmFtZSI6IkdhdXJhbnNoaSBHdXB0YSIsIm93bmVyRW1haWwiOiJnYXVyYW5zaGlndXB0YTIwMDBAZ21haWwuY29tIiwicm9sbE5vIjoiMDA3MTkwMTE5MjEifQ.DyFCV9SLZNxAoKc6YM-9RYp7y40E5moz4GW9pzoc-z4";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzIwNzA4MjQ1LCJpYXQiOjE3MjA3MDc5NDUsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6ImE0NTg4NGUyLTg1MzEtNGZmNi04YTMzLWJlYWI5MjY4NTIzYyIsInN1YiI6InJpdHVqYWluYW5hbnQyODEwQGdtYWlsLmNvbSJ9LCJjb21wYW55TmFtZSI6IkFGRk9SRE1FRCIsImNsaWVudElEIjoiYTQ1ODg0ZTItODUzMS00ZmY2LThhMzMtYmVhYjkyNjg1MjNjIiwiY2xpZW50U2VjcmV0IjoiTEdGZXFQT1pmeVJUZGhyRSIsIm93bmVyTmFtZSI6IkFuYW50IEphaW4iLCJvd25lckVtYWlsIjoicml0dWphaW5hbmFudDI4MTBAZ21haWwuY29tIiwicm9sbE5vIjoiMDcwMTkwMTE5MjEifQ.uLui-EAWvFdhaA_awhY6R3UfDmwsCsz4tm23faFZUGs";
 
-  const applyFilters = async () => {
+  const applyFilters = useCallback(async () => {
     const company = "AMZ";
     try {
       const productsData = await getTopProducts(
@@ -34,11 +37,11 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  };
+  }, [filters, token]);
 
   useEffect(() => {
     applyFilters();
-  }, []);
+  }, [applyFilters]);
 
   return (
     <div>
@@ -47,7 +50,7 @@ const Home = () => {
         setFilters={setFilters}
         applyFilters={applyFilters}
       />
-      <div>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
@@ -57,3 +60,4 @@ const Home = () => {
 };
 
 export default Home;
+
